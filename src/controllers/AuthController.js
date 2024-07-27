@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { createUser, findUserByEmail, updateToken, createReset,findCodeByEmail } from "../models/User.js";
 import sgMail from '@sendgrid/mail';
 import dotenv from "dotenv";
+import { prisma } from "../../config/prisma.js";
 
 dotenv.config();
 
