@@ -1,5 +1,11 @@
 import bcrypt from "bcrypt";
 import { createUser, findUserByEmail, updateToken, createReset } from "../models/User.js";
+import sgMail from '@sendgrid/mail';
+import dotenv from "dotenv";
+
+dotenv.config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const signup = async (req, res) => {
   try {
