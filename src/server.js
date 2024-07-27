@@ -7,8 +7,11 @@ import { dirname } from "path";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import prodRoutes from "./routes/prodRoutes.js";
+import sgMail from '@sendgrid/mail';
 
 dotenv.config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
