@@ -54,3 +54,15 @@ export const createReset = async (resetData) => {
     data: resetData,
   });
 };
+
+export const findCodeByEmail = async (email) => {
+  return prisma.resets.findFirst({
+    where: {
+      email: email,
+    },
+    orderBy: {
+      id: 'desc',
+    },
+  });
+
+};

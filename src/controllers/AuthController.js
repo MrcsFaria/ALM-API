@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { createUser, findUserByEmail, updateToken, createReset } from "../models/User.js";
+import { createUser, findUserByEmail, updateToken, createReset,findCodeByEmail } from "../models/User.js";
 import sgMail from '@sendgrid/mail';
 import dotenv from "dotenv";
 
@@ -102,3 +102,23 @@ export const handleResetRequest = async (req, res) => {
 function generateRandomCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
+
+export const getCodeByEmail = async (req, res) => {
+  const { email } = req.params; // Recebe o e-mail como parâmetro de rota
+
+  try {
+    // Busca o código de recuperação no banco de dados
+    const resetRecord = await findCodeByEmail(email);
+
+    if (resetRecord) {
+      // Retorna o código se encontrado
+      res.status(200).json({ code: resetRecord.code });
+    } else {
+      // Retorna uma mensagem de erro se o código não for encontrado
+      res.status(404).json({ message: 'Código de recuperação não encontrado para este e-mail.' });
+    }
+  } catch (error) {
+    console.error('Erro ao buscar código de recuperação:', error);
+    res.status(500).json({ message: 'Erro ao buscar código de recuperação.' });
+  }
+};
