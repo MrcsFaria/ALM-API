@@ -128,9 +128,7 @@ export const ResetPassword = async (req, res) => {
 
   try {
       // Verifica se o usuário existe
-      const user = await prisma.user.findUnique({
-          where: { email }
-      });
+      const user = findUserByEmail(email)
 
       if (!user) {
           return res.status(404).json({ message: 'Usuário não encontrado.' });
