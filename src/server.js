@@ -54,7 +54,7 @@ server.post('/send', async (req, res) => {
       if (error.response) {
           console.error(error.response.body);
       }
-      res.status(500).send('Erro ao enviar e-mail');
+      res.status(500).send('E-mail não encontrado no banco de dados.');
   }
 });
 
