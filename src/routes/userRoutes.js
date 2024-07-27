@@ -15,6 +15,7 @@ router.get('/users/:email', async (req, res) => {
             res.json({ 
             nome: user.nome,
             email: user.email,
+            password_hash: user.password_hash,
              });
         } else {
             res.status(404).json({ message: 'Usuário não encontrado' });

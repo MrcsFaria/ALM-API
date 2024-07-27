@@ -1,0 +1,24 @@
+-- AlterTable
+ALTER TABLE "categories" ALTER COLUMN "categoria" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "products" ALTER COLUMN "nome" SET DATA TYPE TEXT,
+ALTER COLUMN "marca" SET DATA TYPE TEXT,
+ALTER COLUMN "imagem" SET DATA TYPE TEXT,
+ALTER COLUMN "tamanhos" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "nome" SET DATA TYPE TEXT,
+ALTER COLUMN "email" SET DATA TYPE TEXT,
+ALTER COLUMN "password_hash" SET DATA TYPE TEXT,
+ALTER COLUMN "token" SET DATA TYPE TEXT,
+ALTER COLUMN "cpf" SET DATA TYPE TEXT;
+
+-- CreateTable
+CREATE TABLE "resets" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+
+    CONSTRAINT "resets_pkey" PRIMARY KEY ("id")
+);

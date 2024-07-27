@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import bcrypt from 'bcrypt';
 import fileUpload from "express-fileupload";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -57,6 +58,30 @@ server.post('/send', async (req, res) => {
       res.status(500).send('E-mail não encontrado no banco de dados.');
   }
 });
+
+app.post('/verify-code', async (req, res) => {
+  const { email, code } = req.body;
+
+  try {
+      const isCodeValid = await verifyCode(email, code);
+      
+      if (!isCodeValid) {
+          return res.status(400).send('Código inválido');
+      }
+      
+      res.status(200).send('Email enviado com sucesso!');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Erro ao processar a solicitação');
+  }
+});
+
+async function verifyCode(email, code) {
+  // Implemente a lógica para verificar o código
+  // Isso geralmente envolve consultar o banco de dados para ver se o código corresponde ao e-mail
+  // Retorne true se o código for válido, caso contrário, false
+  return true;
+}
 
 server.listen(process.env.PORT, () => {
   console.log(`Rodando na porta: ${process.env.BASE}`);
