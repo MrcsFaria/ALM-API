@@ -48,3 +48,9 @@ export const findUserByToken = async (token) => {
     where: { token },
   });
 };
+
+export const createReset = async (resetData) => {
+  return prisma.resets.create({
+    data: resetData,
+  });
+};

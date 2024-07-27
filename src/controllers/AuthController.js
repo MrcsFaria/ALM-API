@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { createUser, findUserByEmail, updateToken } from "../models/User.js";
+import { createUser, findUserByEmail, updateToken, createReset } from "../models/User.js";
 
 export const signup = async (req, res) => {
   try {
@@ -60,3 +60,40 @@ export const signin = async (req, res) => {
     res.status(500).json({ error: "Failed to log in", message: error.message });
   }
 };
+
+export const handleResetRequest = async (req, res) => {
+  const { email } = req.body;
+  const code = generateRandomCode(); // Gera um código de recuperação
+
+  try {
+    // Cria um novo reset no banco de dados
+    await createReset({
+      email: email,
+      code: code,
+      createdAt: new Date(), // Adiciona a data/hora atual se a tabela tiver esse campo
+    });
+
+    // Envia o e-mail com o código
+    const msg = {
+      to: email,
+      from: 'botprojects@outlook.com',
+      subject: 'Recuperação de Senha',
+      text: `Olá, \n\nVocê solicitou a recuperação de senha. Use o código a seguir para recuperar sua senha: ${code}\n\nSe você não solicitou a recuperação, por favor ignore este e-mail.`,
+      html: `<p>Olá,</p>
+             <p>Você solicitou a recuperação de senha. Use o código a seguir para recuperar sua senha:</p>
+             <h2>${code}</h2>
+             <p>Se você não solicitou a recuperação, por favor ignore este e-mail.</p>`,
+    };
+
+    await sgMail.send(msg);
+    res.status(200).send('Email enviado e código de recuperação armazenado com sucesso!');
+  } catch (error) {
+    console.error('Erro ao processar solicitação de recuperação:', error);
+    res.status(500).send('Erro ao processar solicitação de recuperação.');
+  }
+};
+
+// Função para gerar um código de recuperação aleatório
+function generateRandomCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
