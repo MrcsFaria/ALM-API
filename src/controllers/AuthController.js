@@ -70,7 +70,6 @@ export const handleResetRequest = async (req, res) => {
     await createReset({
       email: email,
       code: code,
-      createdAt: new Date(), // Adiciona a data/hora atual se a tabela tiver esse campo
     });
 
     // Envia o e-mail com o código
