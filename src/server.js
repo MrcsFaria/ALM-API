@@ -24,6 +24,10 @@ server.use("/", prodRoutes);
 server.use("/", authRoutes);
 server.use("/", userRoutes);
 
+function generateRandomCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 server.post('/send', async (req, res) => {
   const { email } = req.body;
   const code = generateRandomCode();
